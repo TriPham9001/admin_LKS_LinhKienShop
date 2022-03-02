@@ -1,0 +1,107 @@
+<div class="content-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel-body"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            EDIT PRODUCT
+          </div>
+          <div class="panel-body">
+            <form role="form" method="post" action="/san-pham/{{product._id}}/edit" enctype="multipart/form-data">
+
+              {{!-- NAME --}}
+              <div class="form-group">
+                <label class="control-label" for="success">Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{product.name}}" />
+              </div>
+
+              {{!-- Price --}}
+              <div class="form-group">
+                <label class="control-label" for="price">Price</label>
+                <input type="number" class="form-control" id="price" name="price" value="{{product.price}}" />
+              </div>
+
+              {{!-- Category --}}
+              {{!-- <div class="form-group">
+                <label class="control-label" for="error">Category</label>
+                <select class="form-control" name="category" id="category">
+                  {{#each categories }}
+                  {{#if (compareCategory this._id ../product.category)}}
+                  <option value="this._id">{{this.name}}</option>
+                  {{else}}
+                  <option value="this._id">{{this.name}}</option>
+                  {{/if}}
+                  {{/each}}
+                </select>
+              </div> --}}
+
+
+              {{!-- IMG --}}
+              <div class="form-group">
+                <img width="170" height="170" src="{{product.image}}" id="img-view" />
+                <input type="file" onchange="onChangeFile()" class="form-control-file border" id="img-file"
+                  name="image" />
+              </div>
+
+              {{!-- Description --}}
+              <div class="form-group">
+                <label class="control-label" for="description">Description</label>
+                <textarea type="text" class="form-control" name="description" id="description" rows="5">
+                {{product.description}}
+                </textarea>
+              </div>
+
+              {{!-- Available --}}
+              <div class="checkbox">
+                <label class="control-label" for="available">Available</label>
+                {{#if product.available}}
+                <input type="checkbox" checked value="{{product.available}}" class="form-control" name="available"
+                  id="available" />
+                {{else}}
+                <input type="checkbox" value="{{product.available}}" class="form-control" name="available"
+                  id="available" />
+                {{/if}}
+              </div>
+
+              {{!-- v --}}
+              <div class="form-group">
+                <label class="control-label" for="published">Published</label>
+                <input value="{{product.published}}" type="date" class="form-control" id="published" name="published" />
+              </div>
+
+              {{!-- BUTTON --}}
+              <div class="form-group">
+                <button onclick="onClose()" type="button" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">SAVE CHANGES</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+
+<script>
+  const onClose = () => {
+    window.location.href = '/san-pham'
+  }
+
+
+  const onChangeFile = () => {
+    const file = document.getElementById('img-file').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('img-view').src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+  }
+
+
+
+</script>

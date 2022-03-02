@@ -1,0 +1,263 @@
+<div class="navbar navbar-inverse set-radius-zero">
+    <div class="container">
+        <div class="navbar-header">
+
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" width="180" height="180" />
+            </a>
+        </div>
+
+        <div class="right-div">
+            <a href="" class="btn btn-info pull-right">LOG ME OUT</a>
+        </div>
+    </div>
+</div>
+<!-- LOGO HEADER END-->
+<!-- MENU SECTION END-->
+<div class="content-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <!-- Advanced Tables -->
+                <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#addModal">
+                    ADD PRODUCT
+                </button>
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <!-- /.panel-heading -->
+                        <table class="table" class="table table-striped table-bordered table-hover"
+                            id="dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    {{!-- <th>Category</th> --}}
+                                    <th>Image</th>
+                                    <th>Description</th>
+                                    {{!-- <th>Available</th> --}}
+                                    <th>Published</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each products}}
+                                <tr>
+                                    <td>{{soThuTu @index}}</td>
+                                    <td>{{this._id}}</td>
+                                    <td>{{this.name}}</td>
+                                    <td>{{this.price}}</td>
+                                    {{!-- <td>{{getCategoryName this.category ../categories}}</td> --}}
+                                    <td>
+                                        <img src="{{this.image}}" width="70" height="70" />
+                                    </td>
+                                    <td>{{this.description}}</td>
+                                    {{!-- <td>{{this.available}}</td> --}}
+                                    <td>{{formatDate this.published 0}}</td>
+                                    <td>
+                                        <button onclick="goEdit('{{this._id}}')" class="btn btn-primary">
+                                            <i class="fa fa-edit"></i>Edit
+                                        </button>
+
+                                        <button onclick="goDelete('{{this.id}}')" data-toggle="modal"
+                                            data-target="#delModal" class="btn btn-danger">
+                                            <i class="fa fa-pencil"></i>
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                {{/each}}
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--  End  Bordered Table  -->
+                </div>
+            </div>
+
+            <!--End Advanced Tables -->
+        </div>
+    </div>
+</div>
+</div>
+
+<!--  Modals-->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    ADD NEW PRODUCT
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel-body">
+                    <form role="form" method="post" action="/san-pham">
+
+                        {{!-- NAME --}}
+                        <div class="form-group">
+                            <label class="control-label" for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" />
+                        </div>
+
+                        {{!-- Price --}}
+                        <div class="form-group">
+                            <label class="control-label" for="price">Price</label>
+                            <input type="number" class="form-control" id="price" name="price" />
+                        </div>
+
+                        {{!-- Category --}}
+                        {{!-- <div class="form-group">
+                            <label class="control-label" for="error">Category</label>
+                            <select class="form-control" name="category">
+                                {{#each categories}}
+                                <option value="this._id">{{this.name}}</option>
+                                {{/each}}
+                            </select>
+                        </div> --}}
+
+                        {{!-- IMG --}}
+                        {{!-- <div class="form-group">
+                            <img id="img-view" class="display-none img-cover" width="170" height="170" src="" />
+                            <input type="hidden" name="image" id="image" />
+                            <input type="file" onchange="onChangeFile()" class="form-control-file border" id="img-file"
+                                name="image" />
+                        </div> --}}
+
+                        {{!-- Description --}}
+                        <div class="form-group">
+                            <label class="control-label" for="description">Description</label>
+                            <textarea type="text" class="form-control" id="description" name="description"></textarea>
+                        </div>
+
+                        {{!-- Available --}}
+                        <div class="form-group">
+                            <label class="control-label" for="available">Available</label>
+                            <input type="checkbox" class="form-control" id="available" name="available"></input>
+                        </div>
+
+                        {{!-- v --}}
+                        <div class="form-group">
+                            <label class="control-label" for="published">Published</label>
+                            <input type="date" class="form-control" id="published" name="published"></input>
+                        </div>
+
+                        {{!-- BUTTON --}}
+                        <div class="form-group">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">SAVE</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
+
+<!--  Modals-->
+<div class="modal fade" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="panel-body">
+                    {{!-- BUTTON --}}
+                    <h3>Are you sure?</h3>
+                    <div class="form-group">
+                        <button onclick="onClose()" type="button" class="btn btn-default"
+                            data-dismiss="modal">No</button>
+                        <button type="button" onclick="onDelete()" class="btn btn-primary">Yes</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- End Modals-->
+
+
+
+<script>
+    let deleted_id;
+    const goEdit = (id) => {
+        window.location.href = `/san-pham/${id}/edit`;
+    }
+
+    const onClose = () => {
+        window.location.href = '/san-pham';
+    }
+
+    const goDelete = (id) => {
+        deleted_id = id;
+    }
+
+    const fetchAPI = async (url, option) => {
+        const res = await fetch(url, option);
+        return res.json();
+    }
+    const onDelete = async () => {
+        const url = `http://localhost:3000/san-pham/${deleted_id}`
+        const option = {
+            method: 'delete',
+            headers: { 'Content-Type': 'application/json' }
+        }
+        try {
+            await fetchAPI(url, option);
+            window.location.href = '/san-pham';
+
+        } catch (e) {
+            console.log('Delete error: ', e)
+        }
+    }
+    const firebaseConfig = {
+        apiKey: "AIzaSyDgEDeG8BJoGwvz-V5gNAc3SV-uOYwMO40",
+        authDomain: "my-project-9001-40662.firebaseapp.com",
+        projectId: "my-project-9001-40662",
+        storageBucket: "my-project-9001-40662.appspot.com",
+        messagingSenderId: "892732440641",
+        appId: "1:892732440641:web:ea2423b896184e5a29c6c0"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+
+    const onChangeFile = () => {
+        const file = document.getElementById('img-file').files[0];
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('img-view').src = e.target.result;
+            document.getElementById('img-view').classList.remove('display-none');
+        }
+        reader.readAsDataURL(file);
+
+        //Upload
+        const ref = firebase.storage().ref(uuid());
+        const uploadTask = ref.put(file);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
+            (snapshot) => { },
+            (error) => { console.log('firebase error: ', error) },
+            () => {
+                uploadTask.snapshot.ref.getDownloadURL().then(url => {
+                    document.getElementById('image').value = url;
+                })
+            }
+        );
+    }
+
+
+    const uuid = () => {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+</script>
